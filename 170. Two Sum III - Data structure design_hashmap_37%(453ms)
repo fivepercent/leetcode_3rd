@@ -1,0 +1,26 @@
+public class TwoSum {
+    HashMap<Integer, Integer> hash = new HashMap<Integer, Integer>();
+    // Add the number to an internal data structure.
+	public void add(int number) {
+	    hash.put(number, hash.getOrDefault(number, 0)+1);
+	}
+
+    // Find if there exists any pair of numbers which sum is equal to the value.
+	public boolean find(int value) {
+	    for(int num : hash.keySet()){
+	        int other = value-num;
+	        if(other==num){
+	            if(hash.get(num)>=2)return true;
+	        }else{
+	            if(hash.containsKey(other))return true;
+	        }
+	    }
+	    return false;
+	}
+}
+
+
+// Your TwoSum object will be instantiated and called as such:
+// TwoSum twoSum = new TwoSum();
+// twoSum.add(number);
+// twoSum.find(value);
