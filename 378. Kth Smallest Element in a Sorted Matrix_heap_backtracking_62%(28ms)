@@ -1,0 +1,40 @@
+public class Solution {
+    public class element{
+        int x;
+        int y;
+        int value;
+        public element(int x, int y, int value){
+            this.x=x;
+            this.y=y;
+            this.value=value;
+        }
+    }
+    public Comparator<element> Ecomparator = new Comparator<element>(){
+        public int compare(element e1, element e2){
+            return e1.value-e2.value;
+        }
+    };
+    public int kthSmallest(int[][] matrix, int k) {
+        int row = matrix.length;
+        int col = matrix[0].length;
+        PriorityQueue<element> heap = new PriorityQueue<element>(Ecomparator);
+        heap.offer(new element(0, 0, matrix[0][0]));
+        int[] dx=new int[]{0, 1};
+        int[] dy=new int[]{1, 0};
+        boolean[][] visited = new boolean[row][col];
+        visited[0][0]=true;
+        for(int i=0; i<k-1; i++){
+            element cur = heap.poll();
+            for(int j=0; j<2; j++){
+                int new_x = cur.x+dx[j];
+                int new_y = cur.y+dy[j];
+                if(new_x<row&&new_y<col&&!visited[new_x][new_y]){
+                    heap.offer(new element(new_x, new_y, matrix[new_x][new_y]));
+                    visited[new_x][new_y]=true;
+                }
+            }
+        }
+        element kElement=heap.poll();
+        return matrix[kElement.x][kElement.y];
+    }
+}
