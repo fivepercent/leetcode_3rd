@@ -1,0 +1,47 @@
+public class Solution {
+    public boolean isMatch(String s, String p) {
+        return isMatchHelper(s, 0, p, 0, new int[s.length()+1][p.length()+1]);
+    }
+    public boolean isMatchHelper(String s, int is, String p, int ip, int[][] mem){
+        if(mem[is][ip]!=0){
+            return mem[is][ip]==1;
+        }
+        if(is==s.length()){
+            return checkEmpty(p.substring(ip));
+        }else if(ip==p.length()){
+            return false;
+        }
+        boolean res = false;
+        char sc= s.charAt(is);
+        char pc= p.charAt(ip);
+        if(ip+1<p.length()&&p.charAt(ip+1)=='*'){
+            if(isEq(sc, pc)){
+                res = isMatchHelper(s, is, p, ip+2, mem)||isMatchHelper(s, is+1, p, ip, mem);
+            }else{
+                res = isMatchHelper(s, is, p, ip+2, mem);
+            }
+        }else{
+            if(isEq(sc, pc)){
+                res = isMatchHelper(s, is+1, p, ip+1, mem);
+            }else{
+                res = false;
+            }
+        }
+        mem[is][ip]=res?1:-1;
+        return res;
+    }
+    public boolean isEq(char a, char b){
+        return a==b||b=='.';
+    }
+    public boolean checkEmpty(String str){
+        int len = str.length();
+        if(len%2!=0){
+            return false;
+        }else{
+            for(int i=1; i<len; i+=2){
+                if(str.charAt(i)!='*')return false;
+            }
+        }
+        return true;
+    }
+}
