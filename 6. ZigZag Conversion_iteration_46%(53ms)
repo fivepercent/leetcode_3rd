@@ -1,0 +1,15 @@
+public class Solution {
+    public String convert(String s, int numRows) {
+        int len = s.length();
+        if(numRows==1)return s;
+        StringBuilder sb = new StringBuilder();
+        for(int i=0; i<numRows; i++){
+            for(int j=i; j<len; j+=numRows*2-2){
+                sb.append(s.charAt(j));
+                int next_in=j+2*(numRows-i-1);
+                if(i!=0&&i!=numRows-1&&next_in<len)sb.append(s.charAt(next_in));
+            }
+        }
+        return sb.toString();
+    }
+}
