@@ -1,0 +1,26 @@
+public class Solution {
+    public int myAtoi(String str) {
+        str=str.trim();
+        int len = str.length();
+        if(len==0)return 0;
+        int index=0;
+        boolean isNeg=false;
+        char sign = str.charAt(index);
+        if(sign=='-'||sign=='+'){
+            isNeg=sign=='-';
+            index++;
+        }
+        double res=0;
+        while(index<len){
+            char cur=str.charAt(index);
+            if(cur>'9'||cur<'0')break;
+            res=res*10+(double)(cur-'0');
+            index++;
+        }
+        res=isNeg?-res:res;
+        if(res>Integer.MAX_VALUE)return Integer.MAX_VALUE;
+        if(res<Integer.MIN_VALUE)return Integer.MIN_VALUE;
+        return (int)res;
+        
+    }
+}
