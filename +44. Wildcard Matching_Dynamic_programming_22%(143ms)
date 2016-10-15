@@ -1,0 +1,26 @@
+public class Solution {
+    public boolean isMatch(String s, String p) {
+        int lens=s.length();
+        int lenp=p.length();
+        boolean[][] DP = new boolean[lens+1][lenp+1];
+        DP[0][0]=true;
+        for(int j=1; j<=lenp; j++){
+            DP[0][j]=p.charAt(j-1)=='*'&&DP[0][j-1];
+        }
+        for(int i=1; i<=lens; i++){
+            char cur_s=s.charAt(i-1);
+            for(int j=1; j<=lenp; j++){
+                char cur_p=p.charAt(j-1);
+                if(cur_p=='*'){
+                    DP[i][j]=DP[i-1][j]||DP[i][j-1];
+                }else{
+                    DP[i][j]=DP[i-1][j-1]&&isEq(cur_s, cur_p);
+                }
+            }
+        }
+        return DP[lens][lenp];
+    }
+    public boolean isEq(char a, char b){
+        return a==b||b=='?';
+    }
+}
