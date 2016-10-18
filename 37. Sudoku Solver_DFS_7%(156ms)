@@ -1,0 +1,61 @@
+public class Solution {
+    public void solveSudoku(char[][] board) {
+        solve(board);
+    }
+    public boolean solve(char[][] board){
+        for(int i=0; i<9; i++){
+            for(int j=0; j<9; j++){
+                if(board[i][j]!='.')continue;
+                for(int m=0; m<9; m++){
+                    board[i][j]=(char)(m+'1');
+                    if(checkValid(board)&&solve(board))return true;
+                    board[i][j]='.';
+                }
+                return false;
+            }
+        }
+        return true;
+    }
+    public boolean checkValid(char[][] board){
+        //row
+        for(int i=0; i<9; i++){
+            int[] table = new int[10];
+            for(int j=0; j<9; j++){
+                if(board[i][j]=='.')continue;
+                if(table[board[i][j]-'0']>0){
+                    return false;
+                }else{
+                    table[board[i][j]-'0']++;
+                }
+            }
+        }
+        //col
+        for(int j=0; j<9; j++){
+            int[] table = new int[10];
+            for(int i=0; i<9; i++){
+                if(board[i][j]=='.')continue;
+                
+                if(table[board[i][j]-'0']>0){
+                    return false;
+                }else{
+                    table[board[i][j]-'0']++;
+                }
+            }
+        }
+        
+        //3x3 square
+        for(int i=0; i<9; i++){
+            int[] table = new int[10];
+            for(int j=0; j<9; j++){
+                char cur=board[(i/3)*3+j/3][(i%3)*3+j%3];
+                if(cur=='.')continue;
+                if(table[cur-'0']>0){
+                    return false;
+                }else{
+                    table[cur-'0']++;
+                }
+            }
+        }
+        return true;
+    }
+}
