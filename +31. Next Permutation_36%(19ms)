@@ -1,0 +1,26 @@
+public class Solution {
+    public void nextPermutation(int[] nums) {
+        int len=nums.length;
+        if(len<=1)return;
+        int index=len-2;
+        //corner case: all elements are equal.
+        while(index>=0&&nums[index+1]<=nums[index])index--;
+        if(index>=0){
+            int index2=len-1;
+            while(nums[index2]<=nums[index])index2--;
+            swap(nums, index, index2);
+        }
+        int start=index+1;
+        int end=len-1;
+        while(start<end){
+            swap(nums, start, end);
+            start++;
+            end--;
+        }
+    }
+    public void swap(int[] nums, int i, int j){
+        int tmp=nums[i];
+        nums[i]=nums[j];
+        nums[j]=tmp;
+    }
+}
