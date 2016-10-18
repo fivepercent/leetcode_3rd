@@ -1,0 +1,29 @@
+public class Solution {
+    public int trap(int[] height) {
+        int len=height.length;
+        int start=0;
+        int end=len-1;
+        int water=0;
+        if(start>=end)return water;
+        int leftLevel=height[start];
+        int rightLevel=height[end];
+        while(start<end){
+            if(leftLevel>rightLevel){
+                end--;
+                if(height[end]<rightLevel){
+                    water+=rightLevel-height[end];
+                }else{
+                    rightLevel=height[end];
+                }
+            }else{
+                start++;
+                if(height[start]<leftLevel){
+                    water+=leftLevel-height[start];
+                }else{
+                    leftLevel=height[start];
+                }
+            }
+        }
+        return water;
+    }
+}
