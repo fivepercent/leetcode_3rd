@@ -1,0 +1,29 @@
+public class Solution {
+    public List<Integer> findSubstring(String s, String[] words) {
+        int len=words.length;
+        List<Integer> res = new ArrayList<Integer>();
+        if(len==0)return res;
+        HashMap<String, Integer> toFind = new HashMap<String, Integer>();
+        for(int i=0; i<len; i++){
+            toFind.put(words[i], toFind.getOrDefault(words[i], 0)+1);
+        }
+        int wordLen=words[0].length();
+        int wordsLen=wordLen*len;
+        for(int i=0; i<=s.length()-wordsLen;i++){
+            int j=i;
+            HashMap<String, Integer> found = new HashMap<String, Integer>();
+            while(j-i<wordsLen){
+                String cur=s.substring(j, j+wordLen);
+                int f=found.getOrDefault(cur, 0);
+                if(f<toFind.getOrDefault(cur, 0)){
+                    found.put(cur, f+1);
+                }else{
+                    break;
+                }
+                j+=wordLen;
+            }
+            if(j==wordsLen+i)res.add(i);
+        }
+        return res;
+    }
+}
