@@ -1,0 +1,15 @@
+public class Solution {
+    public List<String> generateParenthesis(int n) {
+        List<String> res = new ArrayList<String>();
+        if(n<0)return res;
+        generateParenthesisHelper(n, n, "", res);
+        return res;
+    }
+    public void generateParenthesisHelper(int left, int right, String paren, List<String> res){
+        if(left==0&&right==0){
+            res.add(paren);
+        }
+        if(left>0)generateParenthesisHelper(left-1, right, paren+"(", res);
+        if(right>left)generateParenthesisHelper(left, right-1, paren+")", res);
+    }
+}
