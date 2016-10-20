@@ -1,0 +1,21 @@
+public class Solution {
+    public boolean canPermutePalindrome(String s) {
+        int len =s.length();
+        int res=0;
+        int[] table = new int[128];
+        for(int i=0; i<len; i++){
+            int cur=(int)s.charAt(i);
+            table[cur]++;
+            if(table[cur]%2==0){
+                res--;
+            }else{
+                res++;
+            }
+        }
+        if(len%2==0){
+            return res==0;
+        }else{
+            return res==1;
+        }
+    }
+}
