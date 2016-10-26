@@ -1,0 +1,21 @@
+public class Solution {
+    public double myPow(double x, int n) {
+        if(n==Integer.MIN_VALUE){
+            return (x==1.0||x==-1.0)?1:0;
+        }
+        if(n==0)return 1.0;
+        boolean isNeg=false;
+        if(n<0){
+            isNeg=true;
+            n=-n;
+        }
+        double res;
+        double p= myPow(x, n/2);
+        if(n%2==0){
+            res=p*p;
+        }else{
+            res=p*p*x;
+        }
+        return isNeg?1/res:res;
+    }
+}
