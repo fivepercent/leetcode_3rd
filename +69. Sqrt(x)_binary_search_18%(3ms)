@@ -1,0 +1,20 @@
+public class Solution {
+    public int mySqrt(int x) {
+        if(x==0)return 0;
+        long start=0;
+        long end=x/2+1;
+        while(start<end+1){
+            long mid = (long)(start+(end-start)/2);
+            long v = mid*mid;
+            if(v==x){
+                return (int)mid;
+            }else if(v>x){
+                end=mid-1;
+            }else{
+                start=mid+1;
+            }
+        }
+        return (int)end;
+        
+    }
+}
