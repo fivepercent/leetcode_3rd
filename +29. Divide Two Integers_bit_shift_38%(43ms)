@@ -1,0 +1,32 @@
+public class Solution {
+    public int divide(int dividend, int divisor) {
+        long dd=(long)dividend;
+        long dr=(long)divisor;
+        boolean isNeg=false;
+        if(dd<0){
+            isNeg=!isNeg;
+            dd=-dd;
+        }
+        if(dr<0){
+            isNeg=!isNeg;
+            dr=-dr;
+        }
+        int cnt=0;
+        while((dr<<cnt)<=dd)cnt++;
+        long res=0;
+        while(cnt>=0){
+            res<<=1;
+            if((dr<<cnt)<=dd){
+                res|=1;
+                dd-=dr<<cnt;
+            }
+            cnt--;
+        }
+        res=isNeg?-res:res;
+        if(res>Integer.MAX_VALUE||res<Integer.MIN_VALUE){
+            return Integer.MAX_VALUE;
+        }else{
+            return (int)res;
+        }
+    }
+}
