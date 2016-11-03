@@ -1,0 +1,48 @@
+public class Solution {
+    public int maximalRectangle(char[][] matrix) {
+        int row = matrix.length;
+        if(row==0)return 0;
+        int col=matrix[0].length;
+        int[][] accums = new int[row][col];
+        for(int i=0; i<row; i++){
+            for(int j=0; j<col; j++){
+                if(i==0){
+                    accums[i][j]=(int)(matrix[i][j]-'0');
+                }else{
+                    accums[i][j]=matrix[i][j]=='1'?accums[i-1][j]+1:0;
+                }
+            }
+        }
+        int res=0;
+        for(int i=0; i<row; i++){
+            int cur_max=largestRectangleArea(accums[i]);
+            res=Math.max(res, cur_max);
+        }
+        return res;
+    }
+    public int largestRectangleArea(int[] heights) {
+        int len = heights.length;
+        Stack<Integer> stack = new Stack<Integer>();
+        int res=0;
+        for(int i=0; i<len; i++){
+            while(!stack.isEmpty()&&heights[stack.peek()]>heights[i]){
+                int cur=stack.pop();
+                if(stack.isEmpty()){
+                    res=Math.max(res, heights[cur]*i);
+                }else{
+                    res=Math.max(res, heights[cur]*(i-1-stack.peek()));
+                }
+            }
+            stack.push(i);
+        }
+        while(!stack.isEmpty()){
+            int cur=stack.pop();
+            if(stack.isEmpty()){
+                res=Math.max(res, heights[cur]*len);
+            }else{
+                res=Math.max(res, heights[cur]*(len-1-stack.peek()));
+            }
+        }
+        return res;
+    }
+}
