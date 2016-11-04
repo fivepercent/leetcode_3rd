@@ -1,0 +1,18 @@
+public class Solution {
+    public int numDecodings(String s) {
+        int len = s.length();
+        if(len==0)return 0;
+        int[] DP= new int[len+1];
+        DP[0]=1;
+        DP[1]=s.charAt(0)=='0'?0:1;
+        for(int i=1; i<len; i++){
+            char cur=s.charAt(i);
+            char pre=s.charAt(i-1);
+            DP[i+1]=cur=='0'?0:DP[i];
+            if(pre =='1'||(pre == '2'&&cur<='6')){
+                DP[i+1]+=DP[i-1];
+            }
+        }
+        return DP[len];
+    }
+}
