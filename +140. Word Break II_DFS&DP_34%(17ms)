@@ -1,0 +1,39 @@
+public class Solution {
+    public List<String> wordBreak(String s, Set<String> wordDict) {
+        int len = s.length();
+        boolean[][] substring = new boolean[len][len];
+        for(int i=0; i<len; i++){
+            for(int j=i; j<len; j++){
+                if(wordDict.contains(s.substring(i, j+1))){
+                    substring[i][j]=true;
+                }
+            }
+        }
+        boolean[] DP = new boolean[len+1];
+        DP[len]=true;
+        for(int i=len-1; i>=0; i--){
+            if(!DP[i+1])continue;
+            for(int j=i;j>=0; j--){
+                if(DP[i+1]&&substring[j][i]){
+                    DP[j]=true;
+                }
+            }
+        }
+        List<String> res = new ArrayList<String>();
+        wordBreakHelper(s, 0, wordDict, "", res, DP);
+        return res;
+    }
+    public void wordBreakHelper(String s, int index, Set<String> wordDict, String sentences, List<String> res, boolean[] DP){
+        int len=s.length();
+        if(index==len){
+            res.add(sentences.substring(0, sentences.length()-1));
+            return;
+        }
+        for(int i=index+1; i<=len; i++){
+            String cur=s.substring(index, i);
+            if(DP[i]&&wordDict.contains(cur)){
+                wordBreakHelper(s, i, wordDict, sentences+cur+" ", res, DP);
+            }
+        }
+    }
+}
