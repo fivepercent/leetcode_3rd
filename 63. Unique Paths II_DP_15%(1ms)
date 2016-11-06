@@ -1,0 +1,22 @@
+public class Solution {
+    public int uniquePathsWithObstacles(int[][] obstacleGrid) {
+        int row=obstacleGrid.length;
+        if(row==0)return 0;
+        int col=obstacleGrid[0].length;
+        int[][] DP = new int[row][col];
+        DP[row-1][col-1]=obstacleGrid[row-1][col-1]==1?0:1;
+        for(int i=col-2; i>=0; i--){
+            DP[row-1][i]=obstacleGrid[row-1][i]==1?0:DP[row-1][i+1];
+        }
+        for(int i=row-2; i>=0; i--){
+            DP[i][col-1]=obstacleGrid[i][col-1]==1?0:DP[i+1][col-1];
+        }
+        for(int i=row-2; i>=0; i--){
+            for(int j=col-2; j>=0; j--){
+                DP[i][j]=obstacleGrid[i][j]==1?0:DP[i+1][j]+DP[i][j+1];
+            }
+        }
+        return DP[0][0];
+        
+    }
+}
