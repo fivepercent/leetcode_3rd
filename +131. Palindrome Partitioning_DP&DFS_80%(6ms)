@@ -1,0 +1,35 @@
+public class Solution {
+    public List<List<String>> partition(String s) {
+        int len=s.length();
+        List<List<String>> res = new ArrayList<List<String>>();
+        if(len==0)return res;
+        boolean[][] isPalin=new boolean[len][len];
+        for(int i=0; i<len; i++){
+            for(int j=0; j<=i; j++){
+                if(i==j){
+                    isPalin[j][i]=true;
+                }else if(j==i-1){
+                    isPalin[j][i]=s.charAt(j)==s.charAt(i);
+                }else{
+                    isPalin[j][i]=isPalin[j+1][i-1]&&(s.charAt(j)==s.charAt(i));
+                }
+            }
+        }
+        partitionHelper(s, len, 0, new ArrayList<String>(), res, isPalin);
+        return res;
+    }
+    public void partitionHelper(String s, int len, int index, List<String> partition, List<List<String>> res, boolean isPalin[][]){
+        if(index==len){
+            List<String> list = new ArrayList<String>(partition);
+            res.add(list);
+            return;
+        }
+        for(int i=index; i<len; i++){
+            if(isPalin[index][i]){
+                partition.add(s.substring(index, i+1));
+                partitionHelper(s, len, i+1, partition, res, isPalin);
+                partition.remove(partition.size()-1);
+            }
+        }
+    }
+}
