@@ -1,0 +1,18 @@
+public class Solution {
+    public int strStr(String haystack, String needle) {
+        int len=haystack.length();
+        int len_n=needle.length();
+        int index=0;
+        while(index<=len-len_n){
+            int needle_pointer=0;
+            int stack_pointer=index;
+            while(needle_pointer<len_n&&haystack.charAt(stack_pointer)==needle.charAt(needle_pointer)){
+                needle_pointer++;
+                stack_pointer++;
+            }
+            if(needle_pointer==len_n)return index;
+            index++;
+        }
+        return -1;
+    }
+}
