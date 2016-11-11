@@ -1,0 +1,25 @@
+public class Solution {
+    public List<List<Integer>> combinationSum2(int[] candidates, int target) {
+        int len = candidates.length;
+        List<List<Integer>> res = new ArrayList<List<Integer>>();
+        if(len==0)return res;
+        Arrays.sort(candidates);
+        combinationSum2Helper(candidates, 0, target, new ArrayList<Integer>(), res);
+        return res;
+    }
+    public void combinationSum2Helper(int[] candidates, int index, int target, List<Integer> combination, List<List<Integer>> res){
+        if(target==0){
+            List<Integer> list = new ArrayList<Integer>(combination);
+            res.add(list);
+            return;
+        }
+        int len=candidates.length;
+        for(int i=index; i<len; i++){
+            if(i>index&&candidates[i]==candidates[i-1])continue;
+            if(candidates[i]>target)break;
+            combination.add(candidates[i]);
+            combinationSum2Helper(candidates, i+1, target-candidates[i], combination, res);
+            combination.remove(combination.size()-1);
+        }
+    }
+}
