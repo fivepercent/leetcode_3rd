@@ -1,0 +1,32 @@
+public class Solution {
+    public List<String> restoreIpAddresses(String s) {
+        List<String> res = new ArrayList<String>();
+        restoreIpAddresses(s, 0, 4, "", res);
+        return res;
+    }
+    public void restoreIpAddresses(String s, int index, int cnt, String ip, List<String> res){
+        int len=s.length();
+        if(index==len&&cnt==0){
+            res.add(ip);
+            return;
+        }
+        if(len-index<cnt||len-index>cnt*3)return;
+        for(int i=1; i<=3&&index+i<=len; i++){
+            String cur = s.substring(index, index+i);
+            if(isValid(cur)){
+                String newIp = cnt>1?ip+cur+'.':ip+cur;
+                restoreIpAddresses(s, index+i, cnt-1, newIp, res);
+            }
+        }
+    }
+    public boolean isValid(String str){
+        int len =str.length();
+        int num = Integer.valueOf(str);
+        if(len==2){
+            return num>=10&&num<=99;
+        }else if(len==3){
+            return num>=100&&num<=255;
+        }
+        return true;
+    }
+}
