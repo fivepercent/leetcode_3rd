@@ -1,0 +1,27 @@
+public class Solution {
+    public int totalNQueens(int n) {
+        if(n<=0)return 0;
+        return totalNQueens(n, 0, new ArrayList<Integer>());
+    }
+    public int totalNQueens(int n, int index, List<Integer>solution){
+        int total=0;
+        if(index==n){
+            total++;
+            return total;
+        }
+        for(int i=0; i<n; i++){
+            if(!isValid(solution, index, i))continue;
+            solution.add(i);
+            total+=totalNQueens(n, index+1, solution);
+            solution.remove(solution.size()-1);
+        }
+        return total;
+    }
+    public boolean isValid(List<Integer> solution, int x, int y){
+        for(int i=0; i<x; i++){
+            int j = solution.get(i);
+            if(j==y||Math.abs(x-i)==Math.abs(y-j))return false;
+        }
+        return true;
+    }
+}
