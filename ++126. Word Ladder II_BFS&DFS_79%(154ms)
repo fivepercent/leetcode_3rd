@@ -1,0 +1,53 @@
+public class Solution {
+    public List<List<String>> findLadders(String beginWord, String endWord, Set<String> wordList) {
+        List<List<String>> res = new ArrayList<List<String>>();
+        HashMap<String, List<String>> map = new HashMap<String, List<String>>();
+        HashMap<String, Integer> distances = new HashMap<String, Integer>();
+        bfs(endWord, wordList, map, distances);
+        dfs(endWord, beginWord, wordList, new ArrayList<String>(), map, distances, res);
+        return res;
+    }
+    public void bfs(String endWord,Set<String> wordList, HashMap<String, List<String>> map, HashMap<String, Integer> distances){
+        int len=endWord.length();
+        for(String str: wordList){
+            map.put(str, new ArrayList<String>());
+        }
+        Queue<String> queue = new LinkedList<String>();
+        queue.offer(endWord);
+        distances.put(endWord, 1);
+        int res=0;
+        while(!queue.isEmpty()){
+            String cur = queue.poll();
+            int distance = distances.get(cur);
+            for(int i=0; i<len; i++){
+                char[] ca = cur.toCharArray();
+                for(int j=0; j<26; j++){
+                    ca[i]=(char)('a'+j);
+                    String nb=String.valueOf(ca);
+                    if(wordList.contains(nb)){
+                        map.get(nb).add(cur);
+                        if(!distances.containsKey(nb)){
+                            distances.put(nb, distance+1);
+                            queue.offer(nb);
+                        }
+                    }
+                }
+            }
+        }
+    }
+    public void dfs(String endWord, String current, Set<String> wordList, List<String> ladder, HashMap<String, List<String>> map, HashMap<String, Integer> distances, List<List<String>> res){
+        ladder.add(current);
+        if(current.equals(endWord)){
+            List<String> list = new ArrayList<String>(ladder);
+            res.add(list);
+        }else{
+            List<String> neighbors = map.get(current);
+            for(String nb: neighbors){
+                if(distances.containsKey(nb)&&distances.get(current)==distances.get(nb)+1){
+                    dfs(endWord, nb, wordList, ladder, map, distances, res);
+                }
+            }
+        }
+        ladder.remove(ladder.size()-1);
+    }
+}
