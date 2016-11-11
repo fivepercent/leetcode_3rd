@@ -1,0 +1,45 @@
+public class Solution {
+    public List<List<String>> solveNQueens(int n) {
+        List<List<String>> res = new ArrayList<List<String>>();
+        solveNQueens(n, 0, new ArrayList<Integer>(), res);
+        return res;
+    }
+    public void solveNQueens(int n, int index, List<Integer> solution, List<List<String>> res){
+        if(index==n){
+            List<String> list = generateSolution(solution);
+            res.add(list);
+            return;
+        }
+        for(int i=0; i<n; i++){
+            if(isValid(solution, index, i)){
+                solution.add(i);
+                solveNQueens(n, index+1, solution, res);
+                solution.remove(solution.size()-1);
+            }
+        }
+    }
+    public List<String> generateSolution(List<Integer> solution){
+        List<String> res = new ArrayList<String>();
+        int n = solution.size();
+        for(int i=0; i<n; i++){
+            StringBuilder sb = new StringBuilder();
+            int y = solution.get(i);
+            for(int j=0; j<n; j++){
+                if(j==y){
+                    sb.append('Q');
+                }else{
+                    sb.append('.');
+                }
+            }
+            res.add(sb.toString());
+        }
+        return res;
+    }
+    public boolean isValid(List<Integer> solution, int x, int y){
+        for(int i=0; i<x; i++){
+            int j = solution.get(i);
+            if(j==y||Math.abs(x-i)==Math.abs(y-j))return false;
+        }
+        return true;
+    }
+}
