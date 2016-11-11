@@ -1,0 +1,21 @@
+public class Solution {
+    public List<String> letterCombinations(String digits) {
+        List<String> res = new ArrayList<String>();
+        if(digits.length()==0||digits.indexOf('1')!=-1||digits.indexOf('0')!=-1)return res;
+        String[] table = new String[] {"abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
+        letterCombinations(digits, 0, "", table, res);
+        return res;
+    }
+    public void letterCombinations(String digits, int index, String combination, String[] table, List<String> res){
+        if(index==digits.length()){
+            res.add(combination);
+            return;
+        }
+        int cur = digits.charAt(index)-'0';
+        if(cur<2)return;
+        String decode = table[cur-2];
+        for(int i=0; i<decode.length(); i++){
+            letterCombinations(digits, index+1, combination+decode.charAt(i), table, res);
+        }
+    }
+}
