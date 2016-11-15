@@ -1,0 +1,24 @@
+public class Solution {
+    public int[][] generateMatrix(int n) {
+        int[][] res = new int[n][n];
+        int level=0;
+        int num=1;
+        while(level*2<n){
+            for(int i=level; i<n-level; i++){
+                res[level][i]=num++;
+            }
+            for(int i=level+1; i<n-level; i++){
+                res[i][n-1-level]=num++;
+            }
+            if(n-2*level==1)break;
+            for(int i=n-2-level; i>=level; i--){
+                res[n-1-level][i]=num++;
+            }
+            for(int i=n-2-level; i>level; i--){
+                res[i][level]=num++;
+            }
+            level++;
+        }
+        return res;
+    }
+}
