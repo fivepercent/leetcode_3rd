@@ -1,0 +1,23 @@
+public class Solution {
+    public List<List<Integer>> generate(int numRows) {
+        List<List<Integer>> res = new ArrayList<List<Integer>>();
+        if(numRows<=0)return res;
+        List<Integer> list = new ArrayList<Integer>();
+        list.add(1);
+        res.add(list);
+        for(int i=1; i<numRows; i++){
+            res.add(nextLevel(res.get(res.size()-1)));
+        }
+        return res;
+    }
+    public List<Integer> nextLevel(List<Integer> level){
+        int len=level.size();
+        List<Integer> res = new ArrayList<Integer>();
+        res.add(1);
+        for(int i=1; i<len; i++){
+            res.add(level.get(i-1)+level.get(i));
+        }
+        res.add(1);
+        return res;
+    }
+}
