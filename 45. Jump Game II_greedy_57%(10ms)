@@ -1,0 +1,19 @@
+public class Solution {
+    public int jump(int[] nums) {
+        int len = nums.length;
+        int res=0;
+        int start=0;
+        int end=0;
+        while(end<len-1){
+            int farest=end;
+            for(int i=start; i<=end; i++){
+                if(nums[i]+i>farest)farest=nums[i]+i;
+            }
+            res++;
+            start=end+1;
+            end=farest;
+        }
+        return res;
+        
+    }
+}
