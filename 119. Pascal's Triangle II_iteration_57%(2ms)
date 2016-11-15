@@ -5,13 +5,11 @@ public class Solution {
         if(rowIndex<=0)return res;
         int index=0;
         while(index<rowIndex){
-            List<Integer> pre=res;
-            res=new ArrayList<Integer>();
+            int size=res.size();
             res.add(1);
-            for(int i=0; i<pre.size()-1;i++){
-                res.add(pre.get(i)+pre.get(i+1));
+            for(int i=size-1; i>0;i--){
+                res.set(i, res.get(i)+res.get(i-1));
             }
-            res.add(1);
             index++;
         }
         return res;
