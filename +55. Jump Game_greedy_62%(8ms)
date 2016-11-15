@@ -1,0 +1,18 @@
+public class Solution {
+    public boolean canJump(int[] nums) {
+        int len = nums.length;
+        if(len==0)return false;
+        int start=0;
+        int end=0;
+        while(end<len-1){
+            int farest=end;
+            for(int i=start; i<=end; i++){
+                if(i+nums[i]>farest)farest=i+nums[i];
+            }
+            if(farest==end)return false;
+            start=end+1;
+            end=farest;
+        }
+        return true;
+    }
+}
