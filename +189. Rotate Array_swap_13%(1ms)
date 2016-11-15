@@ -1,0 +1,20 @@
+public class Solution {
+    public void rotate(int[] nums, int k) {
+        int len = nums.length;
+        int i = 0;
+        int start=0;
+        while(i<len){
+            int cur= start;
+            int pre=nums[cur];
+            do{
+                int next = (cur+k)%len;
+                int temp =nums[next];
+                nums[next]=pre;
+                cur=next;
+                pre=temp;
+                i++;
+            }while(cur!=start);
+            start++;
+        }
+    }
+}
