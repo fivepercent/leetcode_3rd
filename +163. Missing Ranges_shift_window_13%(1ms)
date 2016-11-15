@@ -1,0 +1,22 @@
+public class Solution {
+    public List<String> findMissingRanges(int[] nums, int lower, int upper) {
+        int len = nums.length;
+        long start=lower;
+        List<String> res = new ArrayList<String>();
+        for(int i=0; i<len; i++){
+            long end=(long)nums[i]-1;
+            if(start==end){
+                res.add(String.valueOf(start));
+            }else if(start<end){
+                res.add(start+"->"+end);
+            }
+            start=(long)nums[i]+1;
+        }
+        if(start==upper){
+            res.add(String.valueOf(start));
+        }else if(start<upper){
+            res.add(start+"->"+upper);
+        }
+        return res;
+    }
+}
