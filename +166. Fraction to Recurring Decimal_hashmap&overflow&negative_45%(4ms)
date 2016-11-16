@@ -1,0 +1,44 @@
+public class Solution {
+    public String fractionToDecimal(int numerator, int denominator) {
+        //pay attention to 0;
+        if(numerator==0)return "0";
+        StringBuilder sb = new StringBuilder();
+        boolean isNeg=false;
+        //take care of overflow
+        long n=(long)numerator;
+        long d=(long)denominator;
+        //take care of negative number
+        if(n<0){
+            n=-n;
+            isNeg=!isNeg;
+        }
+        if(d<0){
+            d=-d;
+            isNeg=!isNeg;
+        }
+        if(isNeg){
+            sb.append("-");
+        }
+        sb.append(n/d);
+        if(n%d==0)return sb.toString();
+        HashMap<Long, Integer> hash = new HashMap<Long, Integer>();
+        sb.append('.');
+        n%=d;
+        int position=sb.length();
+        while(n!=0){
+            if(hash.containsKey(n)){
+                sb.insert(hash.get(n), "(");
+                break;
+            }
+            hash.put(n, position);
+            long fraction=(n*10)/d;
+            n=(n*10)%d;
+            sb.append(fraction);
+            position++;
+        }
+        if(n!=0){
+            sb.append(")");
+        }
+        return sb.toString();
+    }
+}
