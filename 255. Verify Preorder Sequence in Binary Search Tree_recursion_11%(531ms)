@@ -1,0 +1,16 @@
+public class Solution {
+    public boolean verifyPreorder(int[] preorder) {
+        return verifyPreorderHelper(preorder, 0, preorder.length-1);
+    }
+    public boolean verifyPreorderHelper(int[] preorder, int start, int end){
+        if(start>end)return true;
+        
+        int root=preorder[start];
+        int right=start+1;
+        while(right<=end&&preorder[right]<root)right++;
+        for(int i=right; i<=end; i++){
+            if(preorder[i]<=root)return false;
+        }
+        return verifyPreorderHelper(preorder, start+1, right-1)&&verifyPreorderHelper(preorder, right, end);
+    }
+}
