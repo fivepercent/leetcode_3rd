@@ -1,0 +1,17 @@
+public class Solution {
+    public boolean verifyPreorder(int[] preorder) {
+        int len=preorder.length;
+        Stack<Integer> stack = new Stack<Integer>();
+        int min=Integer.MIN_VALUE;
+        int index =0;
+        while(index<len){
+            if(preorder[index]<min)return false;
+            while(!stack.isEmpty()&&preorder[index]>stack.peek()){
+                min=stack.pop();
+            }
+            stack.push(preorder[index]);
+            index++;
+        }
+        return true;
+    }
+}
