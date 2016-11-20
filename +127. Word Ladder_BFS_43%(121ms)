@@ -17,6 +17,7 @@ public class Solution {
                     if(wordList.contains(nb)&&!table.containsKey(nb)){
                         table.put(nb, distance+1);
                         queue.offer(nb);
+                        wordList.remove(nb);
                     }
                 }
             }
