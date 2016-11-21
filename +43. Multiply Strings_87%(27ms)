@@ -1,0 +1,29 @@
+public class Solution {
+    public String multiply(String num1, String num2) {
+        if(num1.equals("0")||num2.equals("0"))return "0";
+        int len1=num1.length();
+        int len2=num2.length();
+        int[] cache = new int[len1+len2];
+        for(int i=0; i<len1; i++){
+            int n1=(int)(num1.charAt(len1-1-i)-'0');
+            for(int j=0; j<len2; j++){
+                int n2=(int)(num2.charAt(len2-1-j)-'0');
+                int m=(n1*n2+cache[i+j])%10;
+                int c=(n1*n2+cache[i+j])/10;
+                cache[i+j]=m;
+                cache[i+j+1]+=c;
+            }
+        }
+        StringBuilder sb = new StringBuilder();
+        boolean firstbit=false;
+        for(int i=cache.length-1; i>=0; i--){
+            if(cache[i]==0){
+                if(firstbit)sb.append(cache[i]);
+            }else{
+                if(!firstbit)firstbit=true;
+                sb.append(cache[i]);
+            }
+        }
+        return sb.toString();
+    }
+}
