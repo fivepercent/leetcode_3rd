@@ -1,0 +1,17 @@
+public class Solution {
+    public int lengthOfLastWord(String s) {
+        int len =s.length();
+        int start=-1;
+        int index=len-1;
+        while(index>=0){
+            char cur = s.charAt(index);
+            if(start<index&&isAlpha(cur))start=index;
+            if(start>index&&!isAlpha(cur))break;
+            index--;
+        }
+        return start-index;
+    }
+    public boolean isAlpha(char c){
+        return (c>='a'&&c<='z')||(c>='A'&&c<='Z');
+    }
+}
