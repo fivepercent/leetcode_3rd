@@ -1,0 +1,46 @@
+public class Solution {
+    public List<String> fullJustify(String[] words, int maxWidth) {
+        List<String> res = new ArrayList<>();
+        int wordsNum=words.length;
+        int index=0;
+        while(index<wordsNum){
+            List<String> list = new ArrayList<>();
+            int num=0;
+            int len=0;
+            while(index<wordsNum&&len+num+words[index].length()<=maxWidth){
+                String cur = words[index];
+                int cur_len=cur.length();
+                list.add(cur);
+                len+=cur_len;
+                num++;
+                index++;
+            }
+            StringBuilder sb = new StringBuilder();
+            sb.append(list.get(0));
+            if(num==1){
+                addSpace(sb, maxWidth-len);
+            }else if(index==wordsNum){
+                for(int i=1; i<num; i++){
+                    sb.append(' ');
+                    sb.append(list.get(i));
+                }
+                addSpace(sb, maxWidth-len-num+1);
+            }else{
+                int spaceNum=maxWidth-len;
+                int ave=spaceNum/(num-1);
+                for(int i=1; i<num; i++){
+                    if(i<=spaceNum%(num-1))addSpace(sb, ave+1);
+                    else addSpace(sb, ave);
+                    sb.append(list.get(i));
+                }
+            }
+            res.add(sb.toString());
+        }
+        return res;
+    }
+    public void addSpace(StringBuilder sb, int n){
+        for(int i=0; i<n; i++){
+            sb.append(' ');
+        }
+    }
+}
