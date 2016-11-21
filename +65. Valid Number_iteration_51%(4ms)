@@ -1,0 +1,41 @@
+public class Solution {
+    public boolean isNumber(String s) {
+        s=s.trim();
+        int len =s.length();
+        if(len==0)return false;
+        int index=0;
+        if(s.charAt(index)=='+'||s.charAt(index)=='-')index++;
+        boolean dot=false;
+        boolean e=false;
+        boolean num=false;
+        while(index<len){
+            char cur = s.charAt(index);
+            if(isNum(cur)){
+                num=true;
+            }else if(cur=='.'){
+                if(dot){
+                    return false;
+                }else{
+                    dot=true;
+                }
+            }else if(cur=='e'){
+                if(!e&&num){
+                    dot=true;
+                    e=true;
+                    num=false;
+                }else{
+                    return false;
+                }
+            }else if(cur=='+'||cur=='-'){
+                if(s.charAt(index-1)!='e')return false;
+            }else{
+                return false;
+            }
+            index++;
+        }
+        return num;
+    }
+    public boolean isNum(char c){
+        return c>='0'&&c<='9';
+    }
+}
