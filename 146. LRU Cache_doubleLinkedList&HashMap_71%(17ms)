@@ -1,0 +1,59 @@
+public class LRUCache {
+    public class Node {
+        int val;
+        int key;
+        Node pre=null;
+        Node next=null;
+        public Node(int key, int value){
+            this.key=key;
+            this.val=value;
+        }
+    }
+    int capacity;
+    HashMap<Integer, Node> hash;
+    Node head;
+    Node tail;
+    
+    public LRUCache(int capacity) {
+        this.capacity=capacity;
+        hash = new HashMap<Integer, Node>();
+        head = new Node(0, 0);
+        tail= new Node(0, 0);
+        head.next=tail;
+        tail.pre=head;
+    }
+    
+    public int get(int key) {
+        if(!hash.containsKey(key))return -1;
+        Node target = hash.get(key);
+        setToLatest(target, head);
+        return target.val;
+    }
+    
+    public void set(int key, int value) {
+        Node target;
+        if(hash.containsKey(key)){
+            target=hash.get(key);
+            target.val=value;
+            setToLatest(target, head);
+            return;
+        }
+        if(hash.size()==capacity){
+            Node del = tail.pre;
+            del.pre.next=tail;
+            tail.pre=del.pre;
+            hash.remove(del.key);
+        }
+        target = new Node(key, value);
+        setToLatest(target, head);
+        hash.put(key, target);
+    }
+    public void setToLatest(Node target, Node head){
+        if(target.pre!=null)target.pre.next=target.next;
+        if(target.next!=null)target.next.pre=target.pre;
+        head.next.pre=target;
+        target.next=head.next;
+        head.next=target;
+        target.pre=head;
+    }
+}
