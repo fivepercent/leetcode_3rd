@@ -1,0 +1,31 @@
+public class Solution {
+    public int evalRPN(String[] tokens) {
+        int len = tokens.length;
+        Stack<Integer> stack = new Stack<>();
+        int res=0;
+        for(int i=0; i<len; i++){
+            if(isOperator(tokens[i])){
+                int num2=stack.isEmpty()?0:stack.pop();
+                int num1=stack.isEmpty()?0:stack.pop();
+                res=calculate(num1, num2, tokens[i]);
+                stack.push(res);
+            }else{
+                int num = Integer.valueOf(tokens[i]);
+                stack.push(num);
+            }
+        }
+        return stack.pop();
+    }
+    public int calculate(int num1, int num2, String operand){
+        switch(operand){
+            case "+": return num1+num2;
+            case "-": return num1-num2;
+            case "*": return num1*num2;
+            case "/": return num2!=0?num1/num2:Integer.MAX_VALUE;
+            default: return 0;
+        }
+    }
+    public boolean isOperator(String token){
+        return token.equals("+")||token.equals("-")||token.equals("*")||token.equals("/");
+    }
+}
