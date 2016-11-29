@@ -1,0 +1,33 @@
+public class Solution {
+    public boolean canFinish(int numCourses, int[][] prerequisites) {
+        HashMap<Integer, List<Integer>> map = new HashMap<>();
+        int[] indegree = new int[numCourses];
+        Queue<Integer> queue = new LinkedList<>();
+        for(int i=0; i<prerequisites.length; i++){
+            List<Integer> list = map.getOrDefault(prerequisites[i][1], new ArrayList<Integer>());
+            list.add(prerequisites[i][0]);
+            map.put(prerequisites[i][1], list);
+            indegree[prerequisites[i][0]]++;
+        }
+        for(int i=0; i<numCourses; i++){
+            if(indegree[i]==0){
+                queue.offer(i);
+            }
+        }
+        int cnt=0;
+        while(!queue.isEmpty()){
+            Integer cur = queue.poll();
+            cnt++;
+            List<Integer> nexts = map.get(cur);
+            if(nexts!=null){
+                for(Integer next:nexts){
+                    indegree[next]--;
+                    if(indegree[next]==0){
+                        queue.offer(next);
+                    }
+                }
+            }
+        }
+        return cnt==numCourses;
+    }
+}
