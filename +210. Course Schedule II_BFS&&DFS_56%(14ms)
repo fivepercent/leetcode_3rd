@@ -1,0 +1,34 @@
+public class Solution {
+    public int[] findOrder(int numCourses, int[][] prerequisites) {
+        HashMap<Integer, List<Integer>> map = new HashMap<>();
+        int[] flags = new int[numCourses];
+        Queue<Integer> queue = new LinkedList<Integer>();
+        for(int i=0; i<prerequisites.length; i++){
+            List<Integer> list = map.getOrDefault(prerequisites[i][0], new ArrayList<Integer>());
+            list.add(prerequisites[i][1]);
+            map.put(prerequisites[i][0], list);
+        }
+        for(int i=0; i<numCourses; i++){
+            if(!dfs(i, queue, map, flags))return new int[0];
+        }
+        int[] res = new int[numCourses];
+        for(int i=0; i<numCourses; i++){
+            res[i]=queue.poll();
+        }
+        return res;
+    }
+    public boolean dfs(Integer course, Queue<Integer> queue, HashMap<Integer, List<Integer>> map, int[] flags){
+        if(flags[course]==-1)return false;
+        if(flags[course]==1)return true;
+        List<Integer> nexts = map.get(course);
+        flags[course]=-1;
+        if(nexts!=null){
+            for(Integer next: nexts){
+                if(!dfs(next, queue, map, flags))return false;
+            }
+        }
+        flags[course]=1;
+        queue.offer(course);
+        return true;
+    }
+}
