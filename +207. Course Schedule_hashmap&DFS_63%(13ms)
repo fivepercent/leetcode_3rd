@@ -1,0 +1,30 @@
+public class Solution {
+    public boolean canFinish(int numCourses, int[][] prerequisites) {
+        int len=prerequisites.length;
+        if(len==0)return true;
+        Map<Integer, List<Integer>> map = new HashMap<Integer, List<Integer>>();
+        for(int i=0; i<len; i++){
+            List<Integer> list=map.getOrDefault(prerequisites[i][0], new ArrayList<Integer>());
+            list.add(prerequisites[i][1]);
+            map.put(prerequisites[i][0], list);
+        }
+        int[] finished = new int[numCourses];
+        for(int i=0; i<numCourses; i++){
+            if(!canFinishHelper(i, map, finished))return false;
+        }
+        return true;
+    }
+    public boolean canFinishHelper(int course, Map<Integer, List<Integer>> map, int[] finished){
+        if(finished[course]==-1)return false;
+        if(finished[course]==1)return true;
+        List<Integer> neighbours = map.get(course);
+        finished[course]=-1;
+        if(neighbours!=null){
+            for(Integer n: neighbours){
+                if(!canFinishHelper(n, map, finished))return false;
+            }
+        }
+        finished[course]=1;
+        return true;
+    }
+}
