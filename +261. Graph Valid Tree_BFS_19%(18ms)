@@ -1,0 +1,28 @@
+public class Solution {
+    public boolean validTree(int n, int[][] edges) {
+        if(edges.length==0)return n==1;
+        HashMap<Integer, List<Integer>> map = new HashMap<>();
+        for(int i=0; i<n; i++){
+            map.put(i, new ArrayList<Integer>());
+        }
+        for(int i=0; i<edges.length; i++){
+            map.get(edges[i][0]).add(edges[i][1]);
+            map.get(edges[i][1]).add(edges[i][0]);
+        }
+        HashSet<Integer> visited = new HashSet<>();
+        Queue<Integer> queue = new LinkedList<Integer>();
+        queue.offer(0);
+        while(!queue.isEmpty()){
+            Integer cur = queue.poll();
+            if(visited.contains(cur))return false;
+            visited.add(cur);
+            List<Integer> nbs = map.get(cur);
+            for(Integer nb: nbs){
+                if(!visited.contains(nb)){
+                    queue.offer(nb);
+                }
+            }
+        }
+        return n==visited.size();
+    }
+}
