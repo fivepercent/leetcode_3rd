@@ -1,0 +1,63 @@
+public class WordDictionary {
+    public class trieNode{
+        Map<Character, trieNode> children = new HashMap<Character, trieNode>();
+        char c;
+        boolean isEnd;
+        public trieNode(){
+            isEnd=false;
+        }
+    }
+    
+    trieNode root;
+    
+    public WordDictionary(){
+        root= new trieNode();
+    }
+
+    // Adds a word into the data structure.
+    public void addWord(String word) {
+        int len = word.length();
+        trieNode node = root;
+        for(int i=0; i<len; i++){
+            char cur = word.charAt(i);
+            if(!node.children.containsKey(cur)){
+                trieNode newNode = new trieNode();
+                newNode.c=cur;
+                node.children.put(cur, newNode);
+            }
+            node = node.children.get(cur);
+            if(i==len-1)node.isEnd=true;
+        }
+    }
+
+    // Returns if the word is in the data structure. A word could
+    // contain the dot character '.' to represent any one letter.
+    public boolean search(String word) {
+        return searchHelper(word, 0, root);
+    }
+    public boolean searchHelper(String word, int index, trieNode node){
+        if(index==word.length()){
+            return node.isEnd;
+        }
+        char cur = word.charAt(index);
+        Map<Character, trieNode> map =node.children;
+        if(map.size()==0)return false;
+        if(cur=='.'){
+            for(trieNode next: map.values()){
+                if(searchHelper(word, index+1, next))return true;
+            }
+            return false;
+        }else{
+            if(node.children.containsKey(cur)&&searchHelper(word, index+1, node.children.get(cur))){
+                return true;
+            }else{
+                return false;
+            }
+        }
+    }
+}
+
+// Your WordDictionary object will be instantiated and called as such:
+// WordDictionary wordDictionary = new WordDictionary();
+// wordDictionary.addWord("word");
+// wordDictionary.search("pattern");
