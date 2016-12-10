@@ -1,0 +1,62 @@
+public class Solution {
+    public class trieNode{
+        trieNode[] children;
+        boolean isEnd;
+        public trieNode(){
+            isEnd=false;
+            children=new trieNode[26];
+        }
+        
+        public void insert(String word, int index){
+            if(index==word.length()){
+                //System.out.println("haha");
+                this.isEnd=true;
+                return;
+            }
+            int cur = (int)(word.charAt(index)-'a');
+            if(children[cur]==null){
+                children[cur]= new trieNode();
+            }
+            children[cur].insert(word, index+1);
+            
+        }
+    }
+    public List<String> findWords(char[][] board, String[] words) {
+        List<String> res = new ArrayList<String>();
+        int row=board.length;
+        if(row==0)return res;
+        int col=board[0].length;
+        trieNode root = new trieNode();
+        for(String str: words){
+            root.insert(str, 0);
+        }
+        for(int i=0; i<row; i++){
+            for(int j=0; j<col; j++){
+                findWordsHelper(board, i, j, root, "", res, new boolean[row][col]);
+            }
+        }
+        return res;
+        
+    }
+    public void findWordsHelper(char[][] board, int r, int c, trieNode node, String str, List<String> res, boolean[][] flags){
+        int row =board.length;
+        int col =board[0].length;
+        trieNode next=node.children[(int)(board[r][c]-'a')];
+        if(next==null)return;
+        String s=str+board[r][c];
+        if(next.isEnd&&!res.contains(s)){
+            res.add(s);
+        }
+        flags[r][c]=true;
+        int[] dx= new int[]{0,0,1,-1};
+        int[] dy= new int[]{1,-1,0,0};
+        for(int i=0; i<4; i++){
+            int x= r+dx[i];
+            int y= c+dy[i];
+            if(x>=0&&x<row&&y>=0&&y<col&&!flags[x][y]){
+                findWordsHelper(board, x, y, next, s, res, flags);
+            }
+        }
+        flags[r][c]=false;
+    }
+}
