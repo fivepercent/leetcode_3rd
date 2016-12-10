@@ -1,0 +1,31 @@
+public class Solution {
+    public class point{
+        int index;
+        int num;
+        public point(int index, int num){
+            this.index=index;
+            this.num=num;
+        }
+    }
+    public boolean containsNearbyAlmostDuplicate(int[] nums, int k, int t) {
+        int len = nums.length;
+        if(len<=1||t<0)return false;
+        int max=Integer.MIN_VALUE;
+        int min=Integer.MAX_VALUE;
+        for(int i=0; i<len; i++){
+            if(nums[i]>max)max=nums[i];
+            if(nums[i]<min)min=nums[i];
+        }
+        if(max==min)return true;
+        int bucketsNum=(max-min)/(t+1)+1;
+        point[] buckets = new point[bucketsNum];
+        for(int i=0; i<len; i++){
+            int key = (nums[i]-min)/(t+1);
+            if(buckets[key]!=null&&buckets[key].index+k>=i)return true;
+            if(key+1<bucketsNum&&buckets[key+1]!=null&&buckets[key+1].index+k>=i&&buckets[key+1].num-t<=nums[i])return true;
+            if(key-1>=0&&buckets[key-1]!=null&&buckets[key-1].index+k>=i&&buckets[key-1].num+t>=nums[i])return true;
+            buckets[key]=new point(i, nums[i]);
+        }
+        return false;
+    }
+}
