@@ -1,0 +1,40 @@
+public class Solution {
+    public int calculate(String s) {
+        s=s.replace(" ", "");
+        int len = s.length();
+        int index=0;
+        String first=nextNum(s, 0);
+        int res=Integer.valueOf(first);
+        int pre=res;
+        index=first.length();
+        while(index<len){
+            char cur = s.charAt(index);
+            String next=nextNum(s, index+1);
+            int n=Integer.valueOf(next);
+            if(cur=='+'){
+                res+=n;
+                pre=n;
+            }else if(cur=='-'){
+                res-=n;
+                pre=-n;
+            }else if(cur=='*'){
+                res=res-pre+pre*n;
+                pre=pre*n;
+            }else if(cur=='/'){
+                res=res-pre+pre/n;
+                pre=pre/n;
+            }
+            index+=next.length()+1;
+        }
+        return res;
+    }
+    public String nextNum(String s, int index){
+        int len =s.length();
+        int i=index;
+        while(i<len&&isNum(s.charAt(i)))i++;
+        return s.substring(index, i);
+    }
+    public boolean isNum(char c){
+        return c>='0'&&c<='9';
+    }
+}
