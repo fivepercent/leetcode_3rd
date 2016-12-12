@@ -1,0 +1,43 @@
+public class Solution {
+    public int calculate(String s) {
+        int len = s.length();
+        int index=0;
+        Stack<Character> operations=new Stack<>();
+        operations.push('+');
+        Stack<Integer> nums = new Stack<>();
+        while(index<len){
+            char cur = s.charAt(index);
+            if(cur=='+'||cur=='-'||cur=='('){
+                operations.push(cur);
+                index++;
+            }else if(cur==')'){
+                int temp=0;
+                while(operations.peek()!='('){
+                    temp=calculate(temp, nums.pop(), operations.pop());
+                }
+                operations.pop();
+                temp+=nums.pop();
+                nums.push(temp);
+                index++;
+            }else if(isNum(cur)){
+                int left=index;
+                while(index<len&&isNum(s.charAt(index)))index++;
+                nums.push(Integer.valueOf(s.substring(left, index)));
+            }else{
+                index++;
+            }
+        }
+        int res=0;
+        while(!nums.isEmpty()){
+            res=calculate(res, nums.pop(), operations.pop());
+        }
+        return res;
+    }
+    public boolean isNum(char c){
+        return c>='0'&&c<='9';
+    }
+    public int calculate(int n1, int n2, char op){
+        if(op=='+')return n1+n2;
+        else return n1-n2;
+    }
+}
