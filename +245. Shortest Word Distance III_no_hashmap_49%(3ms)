@@ -1,0 +1,16 @@
+public class Solution {
+    public int shortestWordDistance(String[] words, String word1, String word2) {
+        int len = words.length;
+        int index=-1;
+        int distance=Integer.MAX_VALUE;
+        for(int i=0; i<len; i++){
+            if(words[i].equals(word1)||words[i].equals(word2)){
+                if(index!=-1&&(word1.equals(word2)||!words[index].equals(words[i]))){
+                    distance =Math.min(distance, i-index);
+                }
+                index=i;
+            }
+        }
+        return distance;
+    }
+}
