@@ -1,0 +1,50 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    public void recoverTree(TreeNode root) {
+        TreeNode first = null;
+        TreeNode second = null;
+        TreeNode last = new TreeNode(Integer.MIN_VALUE);
+        while(root!=null){
+            if(root.left==null){
+                if(root.val<last.val){
+                    if(first==null){
+                        first=last;
+                    }
+                    second=root;
+                }
+                last=root;
+                root=root.right;
+            }else{
+                TreeNode pre = root.left;
+                while(pre.right!=null&&pre.right!=root){
+                    pre=pre.right;
+                }
+                if(pre.right==null){
+                    pre.right=root;
+                    root=root.left;
+                }else{
+                    pre.right=null;
+                    if(root.val<last.val){
+                        if(first==null){
+                            first=last;
+                        }
+                        second=root;
+                    }
+                    last=root;
+                    root=root.right;
+                }
+            }
+        }
+        int temp = first.val;
+        first.val=second.val;
+        second.val=temp;
+    }
+}
