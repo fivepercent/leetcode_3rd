@@ -15,6 +15,8 @@ public class Solution {
         Queue<String> queue = new LinkedList<String>();
         queue.offer(beginWord);
         distances.put(beginWord, 1);
+        HashSet<String> dictionary = new HashSet<String>();
+        dictionary.addAll(wordList);
         while(!queue.isEmpty()){
             String cur = queue.poll();
             //System.out.println(cur+":");
@@ -27,7 +29,7 @@ public class Solution {
                     cc[i]=(char)('a'+j);
                     if(cc[i]==orig) continue;
                     String nb = String.valueOf(cc);
-                    if(wordList.contains(nb)){
+                    if(dictionary.contains(nb)){
                         //System.out.println(nb);
                         if(!distances.containsKey(nb)){
                             distances.put(nb, distance+1);
